@@ -7,7 +7,7 @@ There're 6046 unique states in total and the code trains by self-play using the 
 
 ## How to Run
 Simply double click the RLTicTacToe.xcodeproj file to open the project in Xcode, then hit the Run button and you should see results similar to the following (note the first time it runs, it takes about 3-5 minutes to build all the 5400 unique non-terminal states - the total number of unique TicTacToe states is 6046):
-
+```
 after random move without learning 100, win: 56, loss: 30, draw: 14
 after random move without learning 200, win: 57, loss: 29, draw: 14
 after random move without learning 300, win: 52, loss: 35, draw: 13
@@ -51,11 +51,15 @@ after best move with learning 700, win: 93, loss: 5, draw: 2
 after best move with learning 800, win: 96, loss: 3, draw: 1
 after best move with learning 900, win: 99, loss: 1, draw: 0
 after best move with learning 1000, win: 95, loss: 4, draw: 1
+```
 
-The results above show that:
+###The results above show that:
 1. If the app selects its move randomly, and the opponent (also part of the app - this is why it's called self play) selects move randomly too, then the player that makes the first move wins about 60 games out of 100, and the other player wins about 30 out of 100;
+
 2. If the app always selects the best possible move (with no learning), then the player making the first move wins a few more games out of 100 than case 1 - this makes sense as at the end of the game, the player would choose the winning move instead of the random one;
+
 3. If the app makes the random moves, even with learning occurred, it certainly has about the same winning percentage as case 1;
+
 4. With learning enabled, selecting the best moves should improve the first player's winning percentage - this is exactly what we expect to see. In the code, line 340 `unique_states[index].value = s2.value + alpha * (s1.value - s2.value)` implements the TD(0) value update algorithm.
 
 ##TODO:
