@@ -62,7 +62,7 @@ after best move with learning 1000, win: 95, loss: 4, draw: 1
 
 4. With learning enabled, selecting the best moves should improve the first player's winning percentage - this is exactly what we expect to see. In the code, line 340 `unique_states[index].value = s2.value + alpha * (s1.value - s2.value)` implements the TD(0) value update algorithm.
 
-##TODO:
+## TODO
 1. save and restore trained model (states with values)- right now, only states with initial values are saved and restored;
 
 2. implement the TD(lambda) and NN for value function for TicTacToe in TensorFlow in Python, then use the trained model in iOS, and compare the winning percentage of game plays using the TD(lambda) and NN trained model with the TD(0) and state-value model here.
