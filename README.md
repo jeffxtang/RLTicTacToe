@@ -60,7 +60,7 @@ after best move with learning 1000, win: 95, loss: 4, draw: 1
 
 3. If the app makes the random moves, even with learning occurred, it certainly has about the same winning percentage as case 1;
 
-4. With learning enabled, selecting the best moves should improve the first player's winning percentage - this is exactly what we expect to see. In the code, line 340 `unique_states[index].value = s2.value + alpha * (s1.value - s2.value)` implements the TD(0) value update algorithm.
+4. With learning enabled, selecting the best moves should improve the first player's winning percentage - this is exactly what we expect to see. In the code, `unique_states[index].value = s2.value + alpha * (s1.value - s2.value)` in the `self_play` function implements the TD(0) value update algorithm.
 
 ## TODO
 1. save and restore trained model (states with values)- right now, only states with initial values are saved and restored;
