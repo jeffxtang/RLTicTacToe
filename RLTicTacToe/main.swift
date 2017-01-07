@@ -257,7 +257,13 @@ func state_value(state: State) -> Float {
 // TODO: add exploration occasionally.
 func select_next_best_move(current_state: State) -> State {
     let state = current_state
-    var max_val: Float = 0.0
+    var best_val: Float
+    if state.my_move {
+        best_val = -MAXFLOAT
+    }
+    else {
+        best_val = MAXFLOAT
+    }
     
     var states = [State]()
     
@@ -271,16 +277,31 @@ func select_next_best_move(current_state: State) -> State {
                 return state
             }
             
-            if state.value >= max_val {
-                max_val = state.value
-                if states.count == 0 || states[0].value == state.value {
-                    states.append(State(state: state))
-                }
-                else { // found a new max, so only keep it (and others with the same value)
-                    states.removeAll()
-                    states.append(State(state: state))
+            if !state.my_move {
+                if state.value >= best_val {
+                    best_val = state.value
+                    if states.count == 0 || states[0].value == state.value {
+                        states.append(State(state: state))
+                    }
+                    else { // found a new max, so only keep it (and others with the same value)
+                        states.removeAll()
+                        states.append(State(state: state))
+                    }
                 }
             }
+            else {
+                if state.value <= best_val {
+                    best_val = state.value
+                    if states.count == 0 || states[0].value == state.value {
+                        states.append(State(state: state))
+                    }
+                    else { // found a new max, so only keep it (and others with the same value)
+                        states.removeAll()
+                        states.append(State(state: state))
+                    }
+                }
+            }
+            
             
             // restore current state to set the next possible move
             state.pieces[i] = 0
@@ -323,7 +344,6 @@ func select_next_random_move(current_state: State) -> State {
 // also for each func call, do the TD(0) update backwards on the previous state, if any, of next state
 func self_play(state: State, random_move: Bool, value_update: Bool) -> Float {
     let next_state = random_move ? select_next_random_move(State(state: state)) : select_next_best_move(State(state: state))
-//    print("<<<\(next_state.pieces), \(next_state.value), \(next_state.my_move)")
     
     // update value one-step (not all the way) backwards (in unique_states) after each move (mine or the opponent's)
     // AND only update the moves made by my move
@@ -336,7 +356,6 @@ func self_play(state: State, random_move: Bool, value_update: Bool) -> Float {
                 let current_state = game_states[game_states.count - 2] // current_state is the state before next_state
                 for (index, s2) in unique_states.enumerate() {
                     if s2.pieces == current_state.pieces {
-//                        print("$$$\(unique_states[index].pieces), \(unique_states[index].value)")
                         unique_states[index].value = s2.value + alpha * (s1.value - s2.value) // the TD(0) update with Reward=0, gamma = 1 (no discount)
                         break
                     }
@@ -488,6 +507,7 @@ func evaluate_self_play_mode(random_move: Bool, learning: Bool) {
         let w = learning ? "with" : "without"
         print("after \(r) move \(w) learning \(i*n), win: \(win), loss: \(loss), draw: \(draw)")
     }
+    print("")
 }
 
 // uncomment to play with human
@@ -499,8 +519,8 @@ func evaluate_self_play_mode(random_move: Bool, learning: Bool) {
 
 
 // selecting best move without learning is better than selecting random move but worse than selecting best move with learning
-evaluate_self_play_mode(true, learning: false)
-evaluate_self_play_mode(false, learning: false)
-evaluate_self_play_mode(true, learning: true)
+//evaluate_self_play_mode(true, learning: false)
+//evaluate_self_play_mode(false, learning: false)
+//evaluate_self_play_mode(true, learning: true)
 evaluate_self_play_mode(false, learning: true)
 
