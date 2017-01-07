@@ -53,7 +53,7 @@ after best move with learning 900, win: 99, loss: 1, draw: 0
 after best move with learning 1000, win: 95, loss: 4, draw: 1
 ```
 
-###The results above show that:
+### The results above show that:
 1. If the app selects its move randomly, and the opponent (also part of the app - this is why it's called self play) selects move randomly too, then the player that makes the first move wins about 60 games out of 100, and the other player wins about 30 out of 100;
 
 2. If the app always selects the best possible move (with no learning), then the player making the first move wins a few more games out of 100 than case 1 - this makes sense as at the end of the game, the player would choose the winning move instead of the random one;
@@ -66,3 +66,6 @@ after best move with learning 1000, win: 95, loss: 4, draw: 1
 1. save and restore trained model (states with values)- right now, only states with initial values are saved and restored;
 
 2. implement the TD(lambda) and NN for value function for TicTacToe in TensorFlow in Python, then use the trained model in iOS, and compare the winning percentage of game plays using the TD(lambda) and NN trained model with the TD(0) and state-value model here.
+
+## For More info
+See [my blog on this project](http://jeffxtang.github.io/reinforcement/learning,/swift,/ios,/ai/2017/01/06/reinforcement-learning-tic-tac-toe.html).
